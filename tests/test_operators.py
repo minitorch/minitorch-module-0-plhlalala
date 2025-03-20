@@ -108,7 +108,10 @@ def test_sigmoid(a: float) -> None:
     * It is  strictly increasing.
     """
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    assert sigmoid(a) >= 0.0
+    assert sigmoid(a) <= 1.0
+    1 - sigmoid(a) == sigmoid(-a)
+    assert sigmoid(0.0) == 0.5 # a比较大会趋于饱和无法判断 sigmoid(a) < sigmoid(a + 1) 
 
 
 @pytest.mark.task0_2
@@ -116,8 +119,8 @@ def test_sigmoid(a: float) -> None:
 def test_transitive(a: float, b: float, c: float) -> None:
     """Test the transitive property of less-than (a < b and b < c implies a < c)"""
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
-
+    if lt(a, b) and lt(b, c):
+        assert lt(a, c)
 
 @pytest.mark.task0_2
 def test_symmetric() -> None:
@@ -125,8 +128,7 @@ def test_symmetric() -> None:
     gives the same value regardless of the order of its input.
     """
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
-
+    assert mul(2, 3) == mul(3, 2)
 
 @pytest.mark.task0_2
 def test_distribute() -> None:
@@ -134,15 +136,15 @@ def test_distribute() -> None:
     :math:`z \times (x + y) = z \times x + z \times y`
     """
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
+    assert mul(2, add(3, 4)) == add(mul(2, 3), mul(2, 4))
 
 
 @pytest.mark.task0_2
 def test_other() -> None:
     """Write a test that ensures some other property holds for your functions."""
     # TODO: Implement for Task 0.2.
-    raise NotImplementedError("Need to implement for Task 0.2")
-
+    assert mul(2, 3) == 6
+    assert add(2, 3) == 5   
 
 # ## Task 0.3  - Higher-order functions
 
@@ -169,8 +171,7 @@ def test_sum_distribute(ls1: List[float], ls2: List[float]) -> None:
     is the same as the sum of each element of `ls1` plus each element of `ls2`.
     """
     # TODO: Implement for Task 0.3.
-    raise NotImplementedError("Need to implement for Task 0.3")
-
+    assert_close(sum(ls1) + sum(ls2), sum([a + b for a, b in zip(ls1, ls2)]))
 
 @pytest.mark.task0_3
 @given(lists(small_floats))
