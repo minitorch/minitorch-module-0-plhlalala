@@ -33,7 +33,56 @@ from typing import Callable, Iterable
 
 
 # TODO: Implement for Task 0.1.
+def mul(x: float, y: float) -> float:
+    return x * y
 
+def id(x: float) -> float:
+    return x
+
+def add(x: float, y: float) -> float:
+    return x + y
+
+def neg(x: float) -> float:
+    return -x
+
+def lt(x: float, y: float) -> bool:
+    return x < y
+
+def eq(x: float, y: float) -> bool:
+    return x == y
+
+def max(x: float, y: float) -> float:
+    return x if x > y else y
+
+def is_close(x: float, y: float) -> bool:
+    return abs(x - y) < 1e-2
+
+def sigmoid(x: float) -> float:
+    if x >= 0:
+        return 1.0 / (1.0 + math.exp(-x))
+    else:
+        return math.exp(x) / (1.0 + math.exp(x))
+    
+def relu(x: float) -> float:
+    return x if x > 0 else 0  # 不能用max，会超出递归深度
+
+def log(x: float) -> float:
+    return math.log(x)
+
+def exp(x: float) -> float:
+    return math.exp(x)
+
+def log_back(x: float, y: float) -> float:
+    return 1 / x * y
+
+def inv(x: float) -> float:
+    return 1 / x
+
+def inv_back(x: float, y:float) -> float:
+    return -1 / (x ** 2) * y
+
+def relu_back(x: float, y: float) -> float:
+    return y if x > 0 else 0
 
 # ## Task 0.3
 
@@ -52,3 +101,32 @@ from typing import Callable, Iterable
 
 
 # TODO: Implement for Task 0.3.
+def map(fn: Callable[[float], float]) -> Callable[[Iterable[float]], Iterable[float]]:
+    def process(data : Iterable[float]) -> Iterable[float]:
+        return [fn(x) for x in data]
+    return process
+
+def zipWith(fn: Callable[[float, float], float]) -> Callable[[Iterable[float], Iterable[float]], Iterable[float]]:
+    def process(data1: Iterable[float], data2: Iterable[float]) -> Iterable[float]:
+        return [fn(x, y) for x, y in zip(data1, data2)]
+    return process
+
+def reduce(fn: Callable[[float, float], float], start: float) -> Callable[[Iterable[float]], float]:
+    def process(data: Iterable[float]) -> float:
+        result = start
+        for x in data:
+            result = fn(result, x)
+        return result
+    return process
+
+def negList(data: Iterable[float]) -> Iterable[float]:
+    return map(neg)(data)
+
+def addLists(data1: Iterable[float], data2: Iterable[float]) -> Iterable[float]:
+    return zipWith(add)(data1, data2)
+
+def sum(data: Iterable[float]) -> float:
+    return reduce(add, 0)(data)
+
+def prod(data: Iterable[float]) -> float:
+    return reduce(mul, 1)(data)
